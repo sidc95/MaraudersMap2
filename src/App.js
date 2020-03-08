@@ -3,14 +3,25 @@ import './App.css';
 import { Navbar, Button, FormControl, Nav, Form } from 'react-bootstrap';
 
 function App() {
+  const handleSubmit = async event => {
+    event.preventDefault();
+    console.log("inhandlesubmit");
+
+    let position;
+    position = await (new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {})
+    }));
+    console.log("Position is: ", position);
+  }
+
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
         <Navbar.Brand href="#home">Mauraders Map</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="#home">Restaurants</Nav.Link>
+          {/* <Nav.Link href="#home">Restaurants</Nav.Link>
           <Nav.Link href="#features">Reviews</Nav.Link>
-          <Nav.Link href="#pricing">About</Nav.Link>
+          <Nav.Link href="#pricing">About</Nav.Link> */}
         </Nav>
         <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -18,7 +29,22 @@ function App() {
         </Form>
       </Navbar>
       <div className="Message">
-        This is a simple restaurant app!
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="choice">
+            <Form.Label>What you you like to eat today?</Form.Label>
+            <Form.Control as="select">
+              <option>Asian </option>
+              <option>Burgers</option>
+              <option>Indian</option>
+              <option>Italian</option>
+              <option>Fast Food</option>
+              <option>Mexican</option>
+            </Form.Control>
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
       </div>
     </div>
   );
