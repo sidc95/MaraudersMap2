@@ -1,8 +1,10 @@
 import React from 'react';
 import './App.css';
 import { Navbar, Button, FormControl, Nav, Form } from 'react-bootstrap';
+import yelp from 'yelp-fusion';
 
 function App() {
+
   const handleSubmit = async event => {
     event.preventDefault();
     console.log("inhandlesubmit");
@@ -12,7 +14,22 @@ function App() {
       navigator.geolocation.getCurrentPosition(resolve, reject, {})
     }));
     console.log("Position is: ", position);
+
+
+    const client = yelp.client('TDr1QaMthKTujiAiGD54UiobVukzVUEpe1NQOE6nBQDb3b_JHdbgMlZOyKW2zH4uAXKCxfVO9bWLJOnmcVa5Nyx3BNHYmSbErSwRPv9dkcBMMHePK4FhY5Y32dBdXnYx');
+
+    client.search({
+      term: 'Chinese',
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    }).then(response => {
+      console.log(response.jsonBody.businesses[0].name);
+    }).catch(e => {
+      console.log(e);
+    });
   }
+
+
 
   return (
     <div className="App">
@@ -33,7 +50,7 @@ function App() {
           <Form.Group controlId="choice">
             <Form.Label>What you you like to eat today?</Form.Label>
             <Form.Control as="select">
-              <option>Asian </option>
+              <option>Chinese </option>
               <option>Burgers</option>
               <option>Indian</option>
               <option>Italian</option>
